@@ -51,8 +51,8 @@ def create_dataset(training_df, image_dir):
 
 
 if __name__ == "__main__":
-    csv_path = "/Users/insomni_.ak/Documents/Machine Learning/AAAMLP/AAAMLP/input/siim_png/train.csv"
-    image_path = "/Users/insomni_.ak/Documents/Machine Learning/AAAMLP/AAAMLP/input/siim_png/train_png/"
+    csv_path = "/Users/insomni_.ak/Documents/Machine Learning/AAAMLP/AAAMLP/approaching_image_classification/input/siim_png/train.csv"
+    image_path = "/Users/insomni_.ak/Documents/Machine Learning/AAAMLP/AAAMLP/approaching_image_classification/input/siim_png/train_png"
 
     # read CSV with imageid and target columns
     df = pd.read_csv(csv_path)
