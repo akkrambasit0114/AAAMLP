@@ -2,7 +2,7 @@
 import pandas as pd
 import os
 from nltk.tokenize import word_tokenize
-from sklearn import linear_model
+from sklearn import naive_bayes
 from sklearn import metrics
 from sklearn import model_selection
 from sklearn.feature_extraction.text import CountVectorizer
@@ -11,7 +11,7 @@ if __name__ == "__main__":
     # read the training data
     #print(os.getcwd())
     df = pd.read_csv("/Users/insomni_.ak/Documents/Machine Learning/AAAMLP/AAAMLP/approaching_text_classification_ or_regression/input/IMDB Dataset.csv")
-    #print(df.head())
+    print(df.head())
 
     # map positive to 1 and negative to 0
     df["sentiment"] = df["sentiment"].apply(
@@ -26,19 +26,24 @@ if __name__ == "__main__":
 
     # fetch labels
     y = df["sentiment"].values
+    print(len(y))
 
     # initiate the kfold class from model_selection module
     kf = model_selection.StratifiedKFold(n_splits=5)
 
     # fill the new kfold column
     for f, (t_, v_) in enumerate(kf.split(X=df, y=y)):
-        df.loc[v_, 'kfold'] = f
-    
+        df.loc[v_, "kfold"] = f
+    print(df["kfold"].value_counts())
     # we go over the folds created
     for fold_ in range(5):
+        print(fold_)
         # temporary dataframes for train and test
-        train_df = df[df.kfold != fold_].reset_index(drop=True)
-        test_df = df[df.kfold == fold_].reset_index(drop=True)
+        train_df = df[df["kfold"] != fold_].reset_index(drop=True)
+        test_df = df[df["kfold"] == fold_].reset_index(drop=True)
+
+        print(train_df.shape)
+        print(test_df.shape)
     
     # initialize CountVectorizer with NLTK's word_tokenize
     # function as tokenizer
@@ -55,7 +60,7 @@ if __name__ == "__main__":
     xtest = count_vec.transform(test_df.review)
 
     # initialize logistic regression model
-    model = linear_model.LogisticRegression()
+    model = naive_bayes.MultinomialNB()
 
     # fit the model on training data reviews and sentiment
     model.fit(xtrain, train_df["sentiment"])
@@ -65,7 +70,7 @@ if __name__ == "__main__":
     preds = model.predict(xtest)
 
     # calculate accuracy
-    accuracy = metrics.accuracy_score(test_df["sentiment", preds])
+    accuracy = metrics.accuracy_score(test_df["sentiment"], preds)
 
     print(f"Fold: {fold_}")
     print(f"Accuracy = {accuracy}")
