@@ -1,4 +1,5 @@
 # import what we need
+# CountVectorizer
 import pandas as pd
 import os
 from nltk.tokenize import word_tokenize

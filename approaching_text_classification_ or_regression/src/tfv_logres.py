@@ -1,12 +1,12 @@
 # import what we need
-# use of CountVectorizer
+# TfidfVectorizer
 import pandas as pd
 import os
 from nltk.tokenize import word_tokenize
 from sklearn import linear_model
 from sklearn import metrics
 from sklearn import model_selection
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 if __name__ == "__main__":
     # read the training data
@@ -43,17 +43,17 @@ if __name__ == "__main__":
     
         # initialize CountVectorizer with NLTK's word_tokenize
         # function as tokenizer
-        count_vec = CountVectorizer(
+        tfidf_vec = TfidfVectorizer(
             tokenizer=word_tokenize,
             token_pattern=None
         )
 
         # fit count_vec on training data reviews
-        count_vec.fit(train_df.review)
+        tfidf_vec.fit(train_df.review)
 
         # transform training and validation data reviews
-        xtrain = count_vec.transform(train_df.review)
-        xtest = count_vec.transform(test_df.review)
+        xtrain = tfidf_vec.transform(train_df.review)
+        xtest = tfidf_vec.transform(test_df.review)
 
         # initialize logistic regression model
         model = linear_model.LogisticRegression(max_iter=10000)
