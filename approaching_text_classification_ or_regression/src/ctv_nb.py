@@ -45,35 +45,35 @@ if __name__ == "__main__":
         print(train_df.shape)
         print(test_df.shape)
     
-    # initialize CountVectorizer with NLTK's word_tokenize
-    # function as tokenizer
-    count_vec = CountVectorizer(
-        tokenizer=word_tokenize,
-        token_pattern=None
-    )
+        # initialize CountVectorizer with NLTK's word_tokenize
+        # function as tokenizer
+        count_vec = CountVectorizer(
+            tokenizer=word_tokenize,
+            token_pattern=None
+        )
 
-    # fit count_vec on training data reviews
-    count_vec.fit(train_df.review)
+        # fit count_vec on training data reviews
+        count_vec.fit(train_df.review)
 
-    # transform training and validation data reviews
-    xtrain = count_vec.transform(train_df.review)
-    xtest = count_vec.transform(test_df.review)
+        # transform training and validation data reviews
+        xtrain = count_vec.transform(train_df.review)
+        xtest = count_vec.transform(test_df.review)
 
-    # initialize logistic regression model
-    model = naive_bayes.MultinomialNB()
+        # initialize logistic regression model
+        model = naive_bayes.MultinomialNB()
 
-    # fit the model on training data reviews and sentiment
-    model.fit(xtrain, train_df["sentiment"])
+        # fit the model on training data reviews and sentiment
+        model.fit(xtrain, train_df["sentiment"])
 
-    # make predictions on test data
-    # threshold for prediction is 0.5
-    preds = model.predict(xtest)
+        # make predictions on test data
+        # threshold for prediction is 0.5
+        preds = model.predict(xtest)
 
-    # calculate accuracy
-    accuracy = metrics.accuracy_score(test_df["sentiment"], preds)
+        # calculate accuracy
+        accuracy = metrics.accuracy_score(test_df["sentiment"], preds)
 
-    print(f"Fold: {fold_}")
-    print(f"Accuracy = {accuracy}")
-    print("")
+        print(f"Fold: {fold_}")
+        print(f"Accuracy = {accuracy}")
+        print("")
 
 

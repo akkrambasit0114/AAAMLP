@@ -11,7 +11,7 @@ if __name__ == "__main__":
     # read the training data
     #print(os.getcwd())
     df = pd.read_csv("/Users/insomni_.ak/Documents/Machine Learning/AAAMLP/AAAMLP/approaching_text_classification_ or_regression/input/IMDB Dataset.csv")
-    #print(df.head())
+    print(df.head())
 
     # map positive to 1 and negative to 0
     df["sentiment"] = df["sentiment"].apply(
@@ -40,35 +40,35 @@ if __name__ == "__main__":
         train_df = df[df.kfold != fold_].reset_index(drop=True)
         test_df = df[df.kfold == fold_].reset_index(drop=True)
     
-    # initialize CountVectorizer with NLTK's word_tokenize
-    # function as tokenizer
-    count_vec = CountVectorizer(
-        tokenizer=word_tokenize,
-        token_pattern=None
-    )
+        # initialize CountVectorizer with NLTK's word_tokenize
+        # function as tokenizer
+        count_vec = CountVectorizer(
+            tokenizer=word_tokenize,
+            token_pattern=None
+        )
 
-    # fit count_vec on training data reviews
-    count_vec.fit(train_df.review)
+        # fit count_vec on training data reviews
+        count_vec.fit(train_df.review)
 
-    # transform training and validation data reviews
-    xtrain = count_vec.transform(train_df.review)
-    xtest = count_vec.transform(test_df.review)
+        # transform training and validation data reviews
+        xtrain = count_vec.transform(train_df.review)
+        xtest = count_vec.transform(test_df.review)
 
-    # initialize logistic regression model
-    model = linear_model.LogisticRegression()
+        # initialize logistic regression model
+        model = linear_model.LogisticRegression(max_iter=10000)
 
-    # fit the model on training data reviews and sentiment
-    model.fit(xtrain, train_df["sentiment"])
+        # fit the model on training data reviews and sentiment
+        model.fit(xtrain, train_df["sentiment"])
 
-    # make predictions on test data
-    # threshold for prediction is 0.5
-    preds = model.predict(xtest)
+        # make predictions on test data
+        # threshold for prediction is 0.5
+        preds = model.predict(xtest)
 
-    # calculate accuracy
-    accuracy = metrics.accuracy_score(test_df["sentiment", preds])
+        # calculate accuracy
+        accuracy = metrics.accuracy_score(test_df["sentiment"], preds)
 
-    print(f"Fold: {fold_}")
-    print(f"Accuracy = {accuracy}")
-    print("")
+        print(f"Fold: {fold_}")
+        print(f"Accuracy = {accuracy}")
+        print("")
 
 
